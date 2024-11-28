@@ -24,9 +24,7 @@
       img.crossOrigin = '';
       img.src = MNIST_IMAGES_SPRITE_PATH;
       await new Promise((resolve) => {
-        img.onload = () => {
-          resolve();
-        };
+        img.onload = () => resolve();
       });
 
       const canvas = document.createElement('canvas');
@@ -47,7 +45,7 @@
         const imageData = ctx.getImageData(x, y, IMAGE_SIZE, IMAGE_SIZE);
 
         for (let j = 0; j < IMAGE_SIZE * IMAGE_SIZE; j++) {
-          datasetBytesBuffer[i * IMAGE_SIZE * IMAGE_SIZE + j] = 
+          datasetBytesBuffer[i * IMAGE_SIZE * IMAGE_SIZE + j] =
             (imageData.data[j * 4] / 255 - 0.5) * 2; // Normalize to range [-1, 1]
         }
       }
@@ -79,7 +77,7 @@
         kernelSize: 3,
         activation: 'relu',
         padding: 'same',
-        kernelRegularizer: tf.regularizers.l2(0.01)
+        kernelRegularizer: tf.regularizers.l2({ l2: 0.01 })
       }));
       model.add(tf.layers.averagePooling2d({ poolSize: 2, strides: 2 }));
 
@@ -89,7 +87,7 @@
         kernelSize: 3,
         activation: 'relu',
         padding: 'same',
-        kernelRegularizer: tf.regularizers.l2(0.01)
+        kernelRegularizer: tf.regularizers.l2({ l2: 0.01 })
       }));
       model.add(tf.layers.averagePooling2d({ poolSize: 2, strides: 2 }));
 
@@ -97,7 +95,11 @@
       model.add(tf.layers.flatten());
 
       // Fully connected layers with Dropout
-      model.add(tf.layers.dense({ units: 128, activation: 'relu', kernelRegularizer: tf.regularizers.l2(0.01) }));
+      model.add(tf.layers.dense({
+        units: 128,
+        activation: 'relu',
+        kernelRegularizer: tf.regularizers.l2({ l2: 0.01 })
+      }));
       model.add(tf.layers.dropout({ rate: 0.5 }));
 
       // Output layer
@@ -106,33 +108,13 @@
       return model;
     }
 
-    // Data augmentation function
-    function augmentData(dataset) {
-      const augmentations = [];
-      for (let i = 0; i < dataset.length; i++) {
-        let image = tf.image.resizeBilinear(dataset[i], [32, 32]);
-        if (Math.random() > 0.5) image = tf.image.randomFlipLeftRight(image);
-        if (Math.random() > 0.5) image = tf.image.randomCrop(image, [28, 28, 1]);
-        augmentations.push(image);
-      }
-      return tf.stack(augmentations);
-    }
-
     async function trainModel() {
       document.getElementById('status').innerText = 'Loading data...';
       const data = await loadMnistData();
 
-      // Augment training data
-      data.trainX = augmentData(data.trainX);
-
       const model = createImprovedModel();
 
       // Learning rate scheduler
-      const lrSchedule = epoch => {
-        if (epoch < 10) return 0.001;
-        if (epoch < 20) return 0.0005;
-        return 0.0001;
-      };
       const optimizer = tf.train.adam();
 
       model.compile({
@@ -149,7 +131,7 @@
         validationData: [data.testX, data.testY],
         callbacks: {
           onEpochEnd: (epoch, logs) => {
-            document.getElementById('status').innerText = 
+            document.getElementById('status').innerText =
               `Epoch ${epoch + 1}: loss = ${logs.loss.toFixed(4)}, accuracy = ${logs.acc.toFixed(4)}`;
           }
         }
@@ -159,9 +141,10 @@
 
       // Evaluate the model
       const evalResult = await model.evaluate(data.testX, data.testY);
-      document.getElementById('accuracy').innerText = 
+      document.getElementById('accuracy').innerText =
         `Test accuracy: ${(evalResult[1].dataSync()[0] * 100).toFixed(2)}%`;
     }
   </script>
 </body>
 </html>
+
