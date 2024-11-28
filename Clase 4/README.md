@@ -84,3 +84,19 @@ Este código implementa un modelo LeNet utilizando **TensorFlow.js** para entren
 ### **TEST 03**
 Epoch 1: loss = 0.4030, accuracy = 0.8991
 
+## Conclusiones 
+* Reconociendo los Límites del Código Inicial
+Al iniciar con una implementación básica del modelo LeNet usando TensorFlow.js, logramos una precisión del 90%. Este resultado es un buen punto de partida, pero también refleja las limitaciones inherentes de la arquitectura y configuraciones iniciales. Factores como la elección de activaciones (tanh), el optimizador (SGD), y la falta de regularización subrayaron la necesidad de ajustes más modernos y robustos.
+
+* Impacto de las Mejoras Graduales
+A través de una serie de mejoras en el modelo, desde la actualización a activaciones ReLU y el uso del optimizador Adam, hasta la incorporación de Dropout, regularización L2, y data augmentation, fuimos capaces de dotar al modelo de herramientas más avanzadas para aprender patrones complejos y generalizar mejor. Estas mejoras también reflejan cómo pequeños cambios estratégicos pueden impactar significativamente el desempeño.
+
+* Importancia del Preprocesamiento y el Dataset
+Aunque MNIST es un excelente conjunto de datos introductorio, su simplicidad también puede limitar el potencial del modelo para superar ciertas barreras de precisión. Al añadir técnicas avanzadas de data augmentation, se abordaron las limitaciones relacionadas con la falta de variabilidad, permitiendo al modelo entrenarse con ejemplos más diversos y realistas.
+
+* El Papel de la Experimentación
+Cada ciclo de pruebas resaltó la importancia de experimentar con configuraciones como el número de épocas, la arquitectura del modelo y las estrategias de optimización. Los ajustes dinámicos del learning rate y el incremento de épocas permitieron observar cómo el modelo se acerca de manera más eficiente a su máximo rendimiento.
+
+* Reflexión Final
+Este proceso nos enseña que incluso modelos clásicos como LeNet pueden beneficiarse enormemente de técnicas modernas de aprendizaje profundo. A pesar de las barreras iniciales, las mejoras implementadas reflejan un enfoque progresivo hacia la construcción de modelos más robustos y eficientes. Este tipo de análisis y ajustes iterativos es esencial para abordar problemas reales y alcanzar niveles superiores de precisión.
+
