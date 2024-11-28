@@ -82,5 +82,5 @@ Este código implementa un modelo LeNet utilizando **TensorFlow.js** para entren
 ---
 
 ### **TEST 03**
-
+Epoch 1: loss = 0.4030, accuracy = 0.8991
 
