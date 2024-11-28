@@ -84,6 +84,7 @@ Este código implementa un modelo LeNet utilizando **TensorFlow.js** para entren
 ### **TEST 03**
 Epoch 1: loss = 0.4030, accuracy = 0.8991
 
+
 ## Conclusiones 
 * Reconociendo los Límites del Código Inicial
 Al iniciar con una implementación básica del modelo LeNet usando TensorFlow.js, logramos una precisión del 90%. Este resultado es un buen punto de partida, pero también refleja las limitaciones inherentes de la arquitectura y configuraciones iniciales. Factores como la elección de activaciones (tanh), el optimizador (SGD), y la falta de regularización subrayaron la necesidad de ajustes más modernos y robustos.
